@@ -1375,27 +1375,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "py-polars"
-version = "0.14.5"
-dependencies = [
- "ahash",
- "bincode",
- "jemallocator",
- "libc",
- "mimalloc",
- "ndarray",
- "numpy",
- "once_cell",
- "polars",
- "polars-core",
- "polars-lazy",
- "py-polars-core",
- "pyo3",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
 name = "py-polars-core"
 version = "0.14.5"
 dependencies = [
