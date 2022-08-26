@@ -72,7 +72,7 @@ impl StringCache {
     /// The global `StringCache` will always use a predictable seed. This allows local builders to mimic
     /// the hashes in case of contention.
     pub(crate) fn get_hash_builder() -> RandomState {
-        RandomState::with_seed(0)
+        RandomState::with_seeds(0, 0, 0, 0)
     }
 
     /// Lock the string cache

@@ -597,14 +597,16 @@ impl PyExpr {
             .into()
     }
 
+    #[cfg(feature = "lazy_regex")]
     pub fn str_replace(&self, pat: PyExpr, val: PyExpr, literal: bool) -> PyExpr {
         self.inner
-            .clone()
-            .str()
-            .replace(pat.inner, val.inner, literal)
-            .into()
+        .clone()
+        .str()
+        .replace(pat.inner, val.inner, literal)
+        .into()
     }
-
+    
+    #[cfg(feature = "lazy_regex")]
     pub fn str_replace_all(&self, pat: PyExpr, val: PyExpr, literal: bool) -> PyExpr {
         self.inner
             .clone()

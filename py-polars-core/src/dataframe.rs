@@ -1,4 +1,5 @@
 use std::io::BufWriter;
+use std::mem::ManuallyDrop;
 use std::ops::Deref;
 
 use numpy::IntoPyArray;
@@ -18,6 +19,7 @@ use polars_core::frame::ArrowChunk;
 use polars_core::prelude::QuantileInterpolOptions;
 use polars_core::utils::arrow::compute::cast::CastOptions;
 use polars_core::utils::get_supertype;
+#[cfg(feature = "pivot")]
 use polars_lazy::frame::pivot::{pivot, pivot_stable};
 use pyo3::types::{PyDict, PyList, PyTuple};
 use pyo3::{exceptions::PyRuntimeError, prelude::*};
@@ -89,7 +91,8 @@ impl PyDataFrame {
         // don't use this anywhere else.
         let mut df = std::mem::take(&mut self.df);
         let cols = std::mem::take(df.get_columns_mut());
-        let (ptr, len, cap) = cols.into_raw_parts();
+        let mut md = ManuallyDrop::new(cols);
+        let (ptr, len, cap) = (md.as_mut_ptr(), md.len(), md.capacity());
         (ptr as usize, len, cap)
     }
 
@@ -1108,6 +1111,7 @@ impl PyDataFrame {
         Ok(PyDataFrame::new(df))
     }
 
+    #[cfg(feature = "pivot")]
     pub fn pivot2(
         &self,
         values: Vec<String>,

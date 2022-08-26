@@ -20,6 +20,8 @@ pub mod kernels;
 #[cfg(feature = "ndarray")]
 mod ndarray;
 
+pub mod boolean;
+
 mod bitwise;
 #[cfg(feature = "object")]
 mod drop;
